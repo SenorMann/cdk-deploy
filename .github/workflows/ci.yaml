@@ -7,6 +7,8 @@ on:
 
 jobs:
   deploy_cdk:
+    env:
+      AWS_ACCOUNT_ID: ${{ secrets.AWS_ACCOUNT_ID }}
     runs-on: ubuntu-latest
     strategy:
       fail-fast: true
@@ -40,4 +42,6 @@ jobs:
           aws configure set default.region us-east-1
 
       - name: Deploy CDK App
-        run: npm run deploy
+        run: |
+          npm run bootstrap
+          npm run deploy

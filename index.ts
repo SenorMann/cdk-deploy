@@ -12,8 +12,8 @@ import { HttpLambdaIntegration } from "@aws-cdk/aws-apigatewayv2-integrations-al
 
 
 class LHServerStack extends cdk.Stack {
-  constructor(app: cdk.App, id: string) {
-    super(app, id);
+  constructor(app: cdk.App, id: string, props: cdk.StackProps) {
+    super(app, id, props);
 
     const vpc = ec2.Vpc.fromLookup(this, `${id}/vpc`, {
       isDefault: true,
@@ -77,7 +77,7 @@ class LHServerStack extends cdk.Stack {
 
     database.connections.allowFrom(lambdaFn, ec2.Port.tcp(database.instanceEndpoint.port));
     databaseCredentials.grantRead(lambdaFn);
-    
+
     new cdk.CfnOutput(this, "API Gateway URL", {
       value: httpApi.url as string,
     })
@@ -85,5 +85,7 @@ class LHServerStack extends cdk.Stack {
 }
 
 const app = new cdk.App();
-new LHServerStack(app, 'geo-cloud-lighthouse-server');
+new LHServerStack(app, 'geo-cloud-lighthouse-server', {
+  env: { account: process.env.AWS_ACCOUNT_ID, region: 'us-east-1' }
+});
 app.synth();
