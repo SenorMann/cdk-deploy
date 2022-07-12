@@ -29,9 +29,9 @@ export async function main(event: APIGatewayEvent, context: Context, callback: A
         }
       });
       handler = serverless(app, { binary: ['application/json', 'image/*', 'font/*'] });
-      const response = await handler(event, context);
-      return response;
     }
+    const response = await handler(event, context);
+    return response;
   } catch (err: any) {
     console.error(err);
     callback(err);

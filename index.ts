@@ -67,23 +67,6 @@ class LHServerStack extends cdk.Stack {
 
 
     const httpApi = new HttpApi(this, `${id}-api-gateway`, {
-      corsPreflight: {
-        allowHeaders: [
-          'Content-Type',
-          'X-Amz-Date',
-          'Authorization',
-          'X-Api-Key',
-        ],
-        allowMethods: [
-          CorsHttpMethod.OPTIONS,
-          CorsHttpMethod.GET,
-          CorsHttpMethod.POST,
-          CorsHttpMethod.PUT,
-          CorsHttpMethod.PATCH,
-          CorsHttpMethod.DELETE,
-        ],
-        allowOrigins: ["*"]
-      },
       defaultIntegration: new HttpLambdaIntegration(`${id}-api-gateway-lambda-integration`, lambdaFn),
     });
 
