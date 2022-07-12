@@ -1,0 +1,43 @@
+name: CI
+
+on:
+  push:
+    branches:
+      - "main"
+
+jobs:
+  deploy_cdk:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: true
+      matrix:
+        node: [16]
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v2
+
+      - name: Use Node.js ${{ matrix.node }}
+        uses: actions/setup-node@v2
+        with:
+          node-version: ${{ matrix.node }}
+          cache: "npm"
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build
+        run: npm run build
+
+      - name: Configure AWS CLI
+        run: |
+          sudo apt-get update
+          sudo apt-get install awscli
+          mkdir ~/.aws/ 
+          touch ~/.aws/credentials 
+          touch ~/.aws/config 
+          aws configure set aws_access_key_id ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws configure set aws_secret_access_key ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws configure set default.region us-east-1
+
+      - name: Deploy CDK App
+        run: npm run deploy
