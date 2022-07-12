@@ -38,6 +38,7 @@ class LHServerStack extends cdk.Stack {
     });
 
     const database = new rds.DatabaseInstance(this, `${id}-database`, {
+      allocatedStorage: 50,
       credentials: rds.Credentials.fromSecret(databaseCredentials),
       databaseName: `${id.replaceAll('-', '_')}_db`,
       deletionProtection: true,
@@ -50,6 +51,7 @@ class LHServerStack extends cdk.Stack {
       storageEncrypted: true,
       vpc,
       vpcSubnets: { subnetType: ec2.SubnetType.PUBLIC },
+      
     });
 
     const lambdaFn = new lambda.DockerImageFunction(this, `${id}-lambda`, {

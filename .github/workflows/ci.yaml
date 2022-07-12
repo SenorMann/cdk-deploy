@@ -43,5 +43,4 @@ jobs:
 
       - name: Deploy CDK App
         run: |
-          npm run bootstrap
-          npm run deploy
+          npm run destroy
