@@ -39,7 +39,7 @@ class LHServerStack extends cdk.Stack {
 
     const database = new rds.DatabaseInstance(this, `${id}-database`, {
       credentials: rds.Credentials.fromSecret(databaseCredentials),
-      databaseName: `${id}_db`,
+      databaseName: `${id.replaceAll('-', '_')}_db`,
       deletionProtection: true,
       engine: rds.DatabaseInstanceEngine.postgres({ version: rds.PostgresEngineVersion.VER_14_2 }),
       instanceIdentifier: `${id}-db-server`,
