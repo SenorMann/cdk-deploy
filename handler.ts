@@ -18,10 +18,14 @@ export async function main(event: APIGatewayEvent, context: Context, callback: A
           sqlDialect: 'postgres',
           sqlConnectionSsl: true,
           sqlConnectionUrl: `postgresql://${username}:${password}@${host}:${port}/${dbname}`,
-          sqlDialectOptions: {
-            ssl: true,
-            rejectUnauthorized: false
-          },
+          sequelizeOptions: {
+            dialectOptions: {
+              ssl: {
+                require: true,
+                rejectUnauthorized: false
+              }
+            },
+          }
         }
       });
       handler = serverless(app, { binary: ['application/json', 'image/*', 'font/*'] });
