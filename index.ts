@@ -32,17 +32,17 @@ class LHServerStack extends cdk.Stack {
       ],
     });
 
-    const databaseCredentials = new rds.DatabaseSecret(this, `${id}/database-secret`, {
-      secretName: `${id}/database-credentials`,
+    const databaseCredentials = new rds.DatabaseSecret(this, `${id}-database-secret`, {
+      secretName: `${id}-database-credentials`,
       username: 'lh_user',
     });
 
-    const database = new rds.DatabaseInstance(this, `${id}/database`, {
+    const database = new rds.DatabaseInstance(this, `${id}-database`, {
       credentials: rds.Credentials.fromSecret(databaseCredentials),
       databaseName: `${id}_db`,
       deletionProtection: true,
       engine: rds.DatabaseInstanceEngine.postgres({ version: rds.PostgresEngineVersion.VER_14_2 }),
-      instanceIdentifier: `${id}/db-server`,
+      instanceIdentifier: `${id}-db-server`,
       instanceType: ec2.InstanceType.of(ec2.InstanceClass.T3, ec2.InstanceSize.MICRO),
       preferredBackupWindow: "02:00-03:00",
       preferredMaintenanceWindow: "Sun:03:00-Sun:04:00",
@@ -52,7 +52,7 @@ class LHServerStack extends cdk.Stack {
       vpcSubnets: { subnetType: ec2.SubnetType.PUBLIC },
     });
 
-    const lambdaFn = new lambda.DockerImageFunction(this, `${id}/lambda`, {
+    const lambdaFn = new lambda.DockerImageFunction(this, `${id}-lambda`, {
       code: lambda.DockerImageCode.fromImageAsset(path.join(__dirname, ".")),
       vpc,
       vpcSubnets: { subnetType: ec2.SubnetType.PRIVATE_WITH_NAT },
@@ -66,7 +66,7 @@ class LHServerStack extends cdk.Stack {
     });
 
 
-    const httpApi = new HttpApi(this, `${id}/api-gateway`, {
+    const httpApi = new HttpApi(this, `${id}-api-gateway`, {
       corsPreflight: {
         allowHeaders: [
           'Content-Type',
@@ -84,7 +84,7 @@ class LHServerStack extends cdk.Stack {
         ],
         allowOrigins: ["*"]
       },
-      defaultIntegration: new HttpLambdaIntegration(`${id}/api-gateway-lambda-integration`, lambdaFn),
+      defaultIntegration: new HttpLambdaIntegration(`${id}-api-gateway-lambda-integration`, lambdaFn),
     });
 
 
