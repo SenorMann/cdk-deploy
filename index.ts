@@ -15,8 +15,21 @@ class LHServerStack extends cdk.Stack {
   constructor(app: cdk.App, id: string, props: cdk.StackProps) {
     super(app, id, props);
 
-    const vpc = ec2.Vpc.fromLookup(this, `${id}/vpc`, {
-      isDefault: true,
+    const vpc = new ec2.Vpc(this, `${id}/vpc`, {
+      cidr: "10.0.0.0/16",
+      maxAzs: 2,
+      subnetConfiguration: [
+        {
+          cidrMask: 24,
+          name: "ingress",
+          subnetType: ec2.SubnetType.PUBLIC,
+        },
+        {
+          cidrMask: 24,
+          name: "compute",
+          subnetType: ec2.SubnetType.PRIVATE_WITH_NAT,
+        },
+      ],
     });
 
     const databaseCredentials = new rds.DatabaseSecret(this, `${id}/database-secret`, {
