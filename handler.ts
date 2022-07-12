@@ -20,6 +20,7 @@ export async function main(event: APIGatewayEvent, context: Context, callback: A
           sqlConnectionUrl: `postgresql://${username}:${password}@${host}:${port}/${dbname}`,
           sqlDialectOptions: {
             ssl: true,
+            rejectUnauthorized: false
           },
         }
       });
