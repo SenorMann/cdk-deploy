@@ -17,7 +17,7 @@ class LHServerStack extends cdk.Stack {
 
     const vpc = new ec2.Vpc(this, `${id}/vpc`, {
       cidr: "10.0.0.0/16",
-      maxAzs: 2,
+      maxAzs: 1,
       subnetConfiguration: [
         {
           cidrMask: 24,
@@ -38,7 +38,7 @@ class LHServerStack extends cdk.Stack {
     });
 
     const database = new rds.DatabaseInstance(this, `${id}-database`, {
-      allocatedStorage: 50,
+      allocatedStorage: 30,
       credentials: rds.Credentials.fromSecret(databaseCredentials),
       databaseName: `${id.replaceAll('-', '_')}_db`,
       deletionProtection: true,
@@ -83,7 +83,10 @@ class LHServerStack extends cdk.Stack {
 }
 
 const app = new cdk.App();
-new LHServerStack(app, 'geo-cloud-lighthouse-server', {
+const stack = new LHServerStack(app, 'geo-cloud-lighthouse-server', {
   env: { account: process.env.AWS_ACCOUNT_ID, region: 'us-east-1' }
 });
+stack.templateOptions.description = "Lighthouse Server Stack";
+cdk.Tags.of(stack).add("ProductName", "Lighthouse Server");
+cdk.Tags.of(stack).add("Team", "Geo Cloud");
 app.synth();
