@@ -17,7 +17,7 @@ class LHServerStack extends cdk.Stack {
 
     const vpc = new ec2.Vpc(this, `${id}/vpc`, {
       cidr: "10.0.0.0/16",
-      maxAzs: 1,
+      maxAzs: 2,
       subnetConfiguration: [
         {
           cidrMask: 24,
