@@ -1,14 +1,13 @@
-import path from "path";
+import {
+  HttpApi
+} from "@aws-cdk/aws-apigatewayv2-alpha";
+import { HttpLambdaIntegration } from "@aws-cdk/aws-apigatewayv2-integrations-alpha";
 import * as cdk from "aws-cdk-lib";
 import * as ec2 from "aws-cdk-lib/aws-ec2";
 import * as lambda from "aws-cdk-lib/aws-lambda";
+import * as logs from "aws-cdk-lib/aws-logs";
 import * as rds from "aws-cdk-lib/aws-rds";
-import * as logs from "aws-cdk-lib/aws-logs"
-import {
-  CorsHttpMethod,
-  HttpApi,
-} from "@aws-cdk/aws-apigatewayv2-alpha";
-import { HttpLambdaIntegration } from "@aws-cdk/aws-apigatewayv2-integrations-alpha";
+import path from "path";
 
 
 class LHServerStack extends cdk.Stack {
