@@ -6,7 +6,7 @@
   "scripts": {
     "build": "tsc",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "bootstrap": "cdk bootstrap --require-approval never --verbose --qualifier le-qualifier",
+    "bootstrap": "cdk bootstrap --require-approval never --verbose --qualifier le-qual",
     "deploy": "cdk deploy --require-approval never --verbose",
     "destroy": "cdk destroy --force"
   },
