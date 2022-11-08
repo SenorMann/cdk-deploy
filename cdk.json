@@ -1,5 +1,6 @@
 {
   "app": "npx ts-node --preferTsExts index.ts",
+  "toolkitStackName": "le-stack",
   "watch": {
     "include": [
       "**"
@@ -15,6 +16,7 @@
     ]
   },
   "context": {
+    "@aws-cdk/core:bootstrapQualifier": "le-qualifier",
     "@aws-cdk/aws-apigateway:usagePlanKeyOrderInsensitiveId": true,
     "@aws-cdk/core:stackRelativeExports": true,
     "@aws-cdk/aws-rds:lowercaseDbIdentifier": true,
