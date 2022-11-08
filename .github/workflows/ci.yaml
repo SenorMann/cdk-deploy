@@ -41,6 +41,10 @@ jobs:
           aws configure set aws_secret_access_key ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws configure set default.region us-east-1
 
+      - name: Bootstrap CDK
+        run: |
+          npm run bootstrap
+
       - name: Deploy CDK App
         run: |
           npm run deploy
