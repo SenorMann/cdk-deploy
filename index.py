@@ -1,1 +1,1 @@
-print("Tesssstiiin!!!g");  
+print("Tesssstiiing");  
